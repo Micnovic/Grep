@@ -27,10 +27,16 @@ struct ContentView: View {
 			
 			TextField("File format (leave empty for any)", text: $fileFormat)
 				.textFieldStyle(.roundedBorder)
-				.padding(.bottom, 25)
 				.onSubmit {
 					performGrep()
 				}
+			
+			TextField("Current path", text: $currentPath)
+				.onSubmit {
+					performGrep()
+				}
+				.textFieldStyle(.roundedBorder)
+				.padding(.bottom, 25)
 			
 			HStack {
 				Toggle("Case insensitivity", isOn: $caseInsensitivity)
@@ -64,12 +70,12 @@ struct ContentView: View {
 					.frame(maxWidth: 200, maxHeight: 200)
 			}
 			
-			HStack{
-				Text(!pathPresent ? "Drag and drop folder to execute grep command" : currentPath)
-					.textSelection(.enabled)
-				Spacer()
+			if (!pathPresent){
+				Text("Drag and drop folder to execute grep command")
+					.multilineTextAlignment(.center)
+					.frame(width: 200)
+				.padding(.bottom, 25)
 			}
-			.padding(.bottom, 25)
 			
 			if (pathPresent){
 				ResultsTable(combinedArray: combinedArray, currentPath: currentPath, isLoading: $isLoading, textSize: textSize)
