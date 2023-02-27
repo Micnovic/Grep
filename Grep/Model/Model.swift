@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ResultRow: Identifiable {
 	let path: String

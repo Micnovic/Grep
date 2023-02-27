@@ -17,7 +17,7 @@ struct ContentView: View {
 	@State var recursive: Bool = false
 	@State var combinedArray: [ResultRow] = []
 	@State var isLoading: Bool = false
-	//@State var isAnimating: Bool = false
+	@State var textSize: Double = 14
 	
     var body: some View {
         VStack {
@@ -72,14 +72,23 @@ struct ContentView: View {
 			.padding(.bottom, 25)
 			
 			if (pathPresent){
-				ResultsTable(combinedArray: combinedArray, currentPath: currentPath, isLoading: $isLoading)
+				ResultsTable(combinedArray: combinedArray, currentPath: currentPath, isLoading: $isLoading, textSize: textSize)
 			}
 			
-        }
+		}.ignoresSafeArea(.all)
 		.padding(.all, 30)
 		.frame(minWidth: 400, maxWidth: 800)
 		.onDrop(of: [.url], isTargeted: nil, perform: loadOnDrop)
-    }
+		.toolbar {
+			Spacer()
+			HStack{
+				Image(systemName: "character").resizable().scaledToFit().frame(width:7).foregroundColor(.secondary)
+				Slider(value: $textSize, in: 11...24)
+					.frame(width: 80)
+				Image(systemName: "character").resizable().scaledToFit().frame(width:10).foregroundColor(.secondary)
+			}.padding(.all)
+		}
+	}
 }
 
 
