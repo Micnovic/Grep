@@ -15,6 +15,7 @@ func shell(args: String...) -> String? {
 	task.executableURL = URL(fileURLWithPath: "/bin/bash")
 	//task.launchPath = "/bin/bash"
 	task.arguments = ["-c"]
+	print(args)
 	task.arguments = task.arguments! + args
 	try? task.run()
 	if let data = try? pipe.fileHandleForReading.readToEnd() {

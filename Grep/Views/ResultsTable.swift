@@ -14,7 +14,7 @@ struct ResultsTable: View {
 	@Binding var isLoading: Bool
 	let textSize: Double
 	@State var isAnimating: Bool = false
-	@State var loadingIconScale: Double = 0.0
+	@State var loadingIconScale: Double = 0.001
 	@Environment(\.colorScheme) private var colorScheme
 	var body: some View {
 		VStack {
@@ -59,7 +59,7 @@ struct ResultsTable: View {
 						.padding(.top, 20)
 						.onDisappear(){
 							isAnimating = false
-							loadingIconScale = 0
+							loadingIconScale = 0.001
 						}
 				}
 			}

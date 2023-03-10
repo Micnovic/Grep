@@ -32,7 +32,7 @@ extension ContentView {
 			let lineNumberFlag = lineNumber ? "-n " : ""
 			let recursiveFlag = recursive ? "-r " : ""
 			let noHeadersFlag = "-h "
-			let fileName = " ./*"
+			let fileName = recursive ? #" --include \*"# : " ./*"
 			
 			let textOnly = shell(args: "cd " + currentPath + " && grep " + noHeadersFlag + caseInsensitivityFlag + recursiveFlag + search + fileName + fileFormat)
 			let textOnlyArray = textOnly?.components(separatedBy: "\n") ?? []
