@@ -21,68 +21,72 @@ struct ContentView: View {
 	
     var body: some View {
         VStack {
-			TextField("Search input", text: $search).textFieldStyle(.roundedBorder).onSubmit {
-				performGrep()
-			}
 			
-			TextField("File format (leave empty for any)", text: $fileFormat)
-				.textFieldStyle(.roundedBorder)
-				.onSubmit {
+			VStack {
+				TextField("Search input", text: $search).textFieldStyle(.roundedBorder).onSubmit {
 					performGrep()
 				}
-			
-			TextField("Current path", text: $currentPath)
-				.onSubmit {
-					performGrep()
+				.padding(.top)
+				
+				TextField("File format (leave empty for any)", text: $fileFormat)
+					.textFieldStyle(.roundedBorder)
+					.onSubmit {
+						performGrep()
+					}
+				
+				TextField("Current path", text: $currentPath)
+					.onSubmit {
+						performGrep()
+					}
+					.textFieldStyle(.roundedBorder)
+					.padding(.bottom)
+				
+				HStack {
+					Toggle("Case insensitivity", isOn: $caseInsensitivity)
+						.toggleStyle(.switch)
+						.labelsHidden()
+						.onChange(of: caseInsensitivity) { _ in
+							performGrep()
+						}
+					Text("Case insensitivity")
+						.font(.headline)
+					Spacer()
 				}
-				.textFieldStyle(.roundedBorder)
-				.padding(.bottom, 25)
-			
-			HStack {
-				Toggle("Case insensitivity", isOn: $caseInsensitivity)
-					.toggleStyle(.switch)
-					.labelsHidden()
-					.onChange(of: caseInsensitivity) { _ in
-						performGrep()
-					}
-				Text("Case insensitivity")
-					.font(.headline)
-				Spacer()
-			}
-			
-			HStack {
-				Toggle("Search in subfolders", isOn: $recursive)
-					.toggleStyle(.switch)
-					.labelsHidden()
-					.onChange(of: recursive) { _ in
-						performGrep()
-					}
-				Text("Search in subfolders").font(.headline)
-				Spacer()
-			}.padding(.bottom, 25)
-			
-			if (!pathPresent) {
-				Image(systemName: "square.dashed")
-					.resizable()
-					.aspectRatio(contentMode: .fit)
-					.padding(.bottom, 25)
-					.foregroundColor(.gray)
-					.frame(maxWidth: 200, maxHeight: 200)
-			}
-			
-			if (!pathPresent){
-				Text("Drag and drop folder to execute grep command")
-					.multilineTextAlignment(.center)
-					.frame(width: 200)
-				.padding(.bottom, 25)
-			}
+				
+				HStack {
+					Toggle("Search in subfolders", isOn: $recursive)
+						.toggleStyle(.switch)
+						.labelsHidden()
+						.onChange(of: recursive) { _ in
+							performGrep()
+						}
+					Text("Search in subfolders").font(.headline)
+					Spacer()
+				}.padding(.bottom, 25)
+				
+				if (!pathPresent) {
+					Image(systemName: "square.dashed")
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+						.padding(.bottom, 25)
+						.foregroundColor(.gray)
+						.frame(maxWidth: 200, maxHeight: 200)
+				}
+				
+				if (!pathPresent){
+					Text("Drag and drop folder to execute grep command")
+						.multilineTextAlignment(.center)
+						.frame(minWidth: 100, idealWidth: 200)
+						.padding(.bottom)
+				}
+			}.padding(.bottom, 0).padding(.horizontal, 30).padding(.top, 20)
 			
 			if (pathPresent){
-				ResultsTable(combinedArray: combinedArray, currentPath: currentPath, isLoading: $isLoading, textSize: textSize)
+				ResultsTable(combinedArray: combinedArray, currentPath: currentPath, isLoading: $isLoading, textSize: textSize).padding(.all, 0).ignoresSafeArea()
 			}
 			
 		}.ignoresSafeArea(.all)
-		.padding(.all, 30)
+		.padding(.all, 0)
 		.frame(minWidth: 400, maxWidth: 800)
 		.onDrop(of: [.url], isTargeted: nil, perform: loadOnDrop)
 		.toolbar {
@@ -92,7 +96,8 @@ struct ContentView: View {
 				Slider(value: $textSize, in: 11...24)
 					.frame(width: 80)
 				Image(systemName: "character").resizable().scaledToFit().frame(width:10).foregroundColor(.secondary)
-			}.padding(.all)
+			}
+			.padding(.horizontal, 30)
 		}
 	}
 }
