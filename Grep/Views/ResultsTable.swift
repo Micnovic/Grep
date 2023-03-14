@@ -39,7 +39,6 @@ struct ResultsTable: View {
 					.width(min:60, ideal: 500)
 				}
 				.tableStyle(.inset(alternatesRowBackgrounds: true))
-				.cornerRadius(25)
 				.frame(minHeight: 200)
 				.textSelection(.enabled)
 				if (isLoading) {
